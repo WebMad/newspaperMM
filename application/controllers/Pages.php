@@ -10,6 +10,7 @@ class Pages extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('session');
 		$this->load->library('form_validation');
+		$this->load->model('NewsModel');
 		if($this->session->has_userdata('email')){
 			$this->userdata = $_SESSION;
 		}
@@ -24,7 +25,8 @@ class Pages extends CI_Controller {
 	public function news()
 	{
 		$this->load->view('default/header');
-		$this->load->view('default/news');
+		$data['news'] = $this->NewsModel->getNews('title,annotation,date,last_edit');
+		$this->load->view('default/news', $data);
 		$this->load->view('default/footer');
 	}
 	public function archive()

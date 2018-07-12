@@ -1,3 +1,5 @@
+				</div>
+			</main>
 		</div>
 		<footer class="blog-footer">
 			<div class="container">

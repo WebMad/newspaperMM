@@ -1,13 +1,25 @@
-<main>
-	<div class="row mt-3">
-		<div class="col view overlay">
-			<div class="card flex-md-row mb-4 box-shadow h-md-250 shadow-lg mask rgba-red-strong">
-				<div class="card-body d-flex flex-column align-items-start">
-					<h2>О нас</h2>
-					<p class="card-text mb-auto">
-					1 сентября 2015 года Региональный школьный технопарк начал выпуск детской городской ежемесячной газеты «Мы Можем!». Материалы газеты готовятся обучающимися общеобразовательных организаций Астраханской области под руководством преподавателей РШТ. «Мы Можем!» является медиа-площадкой для репортажей и интервью о детском научно-техническом творчестве, интересах и проблемах детей и молодежи. Попробовать свои силы в разных жанрах журнали может любой обучающийся.</p>
-				</div>
-			</div>
+<div class="mb-5 mt-3">
+	<a href=<?= site_url('panel/news');?>>Назад</a>
+	<h2 class="mb">Добавление новости</h2>
+	<script src=<?= base_url("assets/ckeditor/ckeditor.js");?>></script>
+	<?= form_open('panel/addNew')?>
+		<div class="form-label-group">
+			<label for="title-input">Заголовок</label>
+			<input type="text" id="title-input" name="title" class="form-control" placeholder="Заголовок" required="">
 		</div>
-	</div>
-</main>
+		<div class="form-label-group">
+			<label for="annotation-input">Краткое содержание</label>
+			<textarea class="form-control" id="annotation-input" name="annotation" placeholder="Краткое содержание" rows="3"></textarea>
+		</div>
+		<div class="form-label-group">
+			<label for="content-input">Содержание</label>
+			<textarea class="form-control" id="content-input" name="text" placeholder="Содержание" rows="3"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary mt-3">Добавить</button>
+		<a href=<?= site_url('panel/news')?> class="btn btn-secondary mt-3">Отмена</a>
+	</form>
+	<script>
+		CKEDITOR.replace( document.querySelector( '#content-input' ), {customConfig: '/assets/ckeditor/build-config.js'} );
+	
+	</script>
+</div>

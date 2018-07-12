@@ -22,7 +22,14 @@ body.auth_user{
 .form-label-group, .checkbox{
 	margin-top:20px;
 }
-@media (max-width: 991px) {
+.nav-stacked .nav-item{
+	display: block;
+	float: none;
+}
+.sidebar-admin .nav{
+	display: block;
+}
+@media (max-width: 992px) {
 	.btn_login{
 		display: none;
 	}
