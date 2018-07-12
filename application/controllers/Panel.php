@@ -47,6 +47,8 @@ class Panel extends CI_Controller {
 		$this->page = 'news';
 		if(isset($_POST['title'])){
 			$this->NewsModel->addNew();
+			header('location:' . site_url('panel/news'));
+			exit;
 		}
 		$this->load->view('admin/header');
 		$this->load->view('admin/addNew');

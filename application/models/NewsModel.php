@@ -12,8 +12,8 @@ class NewsModel extends CI_Model{
 			$this->db->select($fields);
 		}
 		$query = $this->db->get_where("news", array('id' => $id));
-		
-		$result = array_shift($query->result_array());
+		$result = $query->result_array();
+		$result = array_shift($result);
 		return $result;
 	}
 	
@@ -43,8 +43,13 @@ class NewsModel extends CI_Model{
 		$data['annotation'] = $_POST['annotation'];
 		$query = $this->db->insert("news", $data);
 	}
-	public function isValid(){
+	public function isValid($id){
+		$data = $this->getNewById($id, 'id');
 		
+		if(count($data)>0)
+			return true;
+		else
+			false;
 	}
 	/*public function isValid(string $email = '', string $password = ''){
 		$query = $this->db->get_where("users", array('email' => $email, 'password' => $password));

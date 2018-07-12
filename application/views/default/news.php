@@ -8,7 +8,7 @@
 						<small class="text-muted"><?= $new['date']?></small>
 						<img src=<?= base_url( IMG_PATH . 'slider.jpg');?> class="rounded mt-3" style="width:100%">
 						<p class="mt-3 text-justify"><?= $new['annotation']?></p>
-						<a href="#">Читать дальше</a>
+						<a href=<?= site_url('pages/news/'.$new['id']);?>>Читать дальше</a>
 
 					</div>
 				<?}?>

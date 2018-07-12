@@ -22,11 +22,18 @@ class Pages extends CI_Controller {
 		$this->load->view('default/home');
 		$this->load->view('default/footer');
 	}
-	public function news()
+	public function news($id = 0)
 	{
 		$this->load->view('default/header');
-		$data['news'] = $this->NewsModel->getNews('title,annotation,date,last_edit');
-		$this->load->view('default/news', $data);
+		if($id>0){
+			$data['is_valid'] = $this->NewsModel->isValid($id);
+			$data['new'] = $this->NewsModel->getNewById($id, 'title,text,date,last_edit');
+			$this->load->view('default/new', $data);
+		}
+		else{
+			$data['news'] = $this->NewsModel->getNews('id,title,annotation,date,last_edit');
+			$this->load->view('default/news', $data);
+		}
 		$this->load->view('default/footer');
 	}
 	public function archive()
