@@ -57,4 +57,10 @@ class Pages extends CI_Controller {
 	public function auth(){
 		$this->load->view('auth');
 	}
+	public function profile()
+	{
+		$this->load->view('default/header');
+		$this->load->view('default/profile');
+		$this->load->view('default/footer');
+	}
 }
