@@ -85,6 +85,8 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 //my constants
-defined('IMG_PATH')            OR define('IMG_PATH', 'assets/images/');
-defined('STYLE_PATH')          OR define('STYLE_PATH', 'assets/css/');
-defined('JS_PATH')             OR define('JS_PATH', 'assets/js/');
+defined('IMG_PATH')               OR define('IMG_PATH', 'assets/images/');
+defined('IMG_USER_PATH')          OR define('IMG_USER_PATH', 'assets/images/users/');
+defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_USER_NAME', 'no-photo.png');
+defined('STYLE_PATH')             OR define('STYLE_PATH', 'assets/css/');
+defined('JS_PATH')                OR define('JS_PATH', 'assets/js/');

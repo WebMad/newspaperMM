@@ -1,9 +1,24 @@
 <main>
 	<div class="row mt-3 mb-5">
-		<div class="col-lg-3 card box-shadow shadow-lg" style="height: 380px;">
-			<div class="mb-5 mt-3">
+		<div class="col-lg-3 card box-shadow shadow-lg" style="height: 500px;">
+			<div class="mb-5 mt-3 text-center">
 				<h2 class="mb-0">Фотография</h2>
-
+				<img class="mw-100 mt-3" style="height: 250px;" src=<?= base_url(IMG_USER_PATH . $_SESSION['photo']);?>>
+				<h4 class="mt-3">Изменить</h4>
+				<div>
+					<?= form_open_multipart('Upload/image')?>
+					
+						<label class="btn btn-outline-secondary mt-3 w-100">
+							Выбрать | <input type="file" name="userfile" size="1" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
+							<span class='label label-info' id="upload-file-info">Выберите файл</span>
+						</label>
+						<br>
+						<label class="btn btn-primary mt-1">
+							Сохранить <button hidden type="submit">Загрузить</button>
+						</label>
+						
+					</form>
+				</div>
 			</div>
 		</div>
 		<div class="col ml-9 ml-4 card box-shadow shadow-lg">
