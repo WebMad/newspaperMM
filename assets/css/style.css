@@ -29,6 +29,9 @@ body.auth_user{
 .sidebar-admin .nav{
 	display: block;
 }
+.row{
+	margin: 0px;
+}
 @media (max-width: 992px) {
 	.btn_login{
 		display: none;

@@ -19,14 +19,7 @@ class User extends CI_Controller {
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 		if($this->UserModel->isValid($email, $password)){
-			$data = $this->UserModel->getUserByEmail($email, 'name,photo,type');
-			$to_session = array(
-				'email' => $email,
-				'name' => $data['name'],
-				'photo' => $data['photo'],
-				'type' => $data['type']
-			);
-			$this->session->set_userdata($to_session);
+			$this->UserModel->updateSession($email);
 			$error = array(
 				'error' => [
 					'title' => 'Успешно!',
@@ -50,6 +43,85 @@ class User extends CI_Controller {
 			);
 			$this->session->set_userdata($error);
 			header('location: ' . site_url('Pages/auth'));
+			exit;
+		}
+	}
+	public function updateInformation(){
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$data = array(
+				'name' => $_POST['name'],
+				'surname' => $_POST['surname'],
+				'email' => $_POST['email'],
+			);
+			$user = $this->UserModel->getUserByEmail($_SESSION['email'], 'id');
+			$this->UserModel->updateDataUser($user['id'], $data);
+			$this->UserModel->updateSessionUser($user['id']);
+			
+			header('location: ' . site_url('pages/profile'));
+			exit;
+		}
+		else{
+			header('location: /');
+			exit;
+		}
+	}
+	public function updatePassword(){
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			if(!empty($_POST['last_password']) && !empty($_POST['password'])){
+				$user = $this->UserModel->getUserById($_SESSION['id'], 'password');
+				if($_POST['repeat_password'] == $_POST['password']){
+					if($user['password'] == $_POST['last_password']){
+						$data = array(
+							'password' => $_POST['password'],
+						);
+						$this->UserModel->updateDataUser($_SESSION['id'], $data);
+						$error = array(
+							'error' => [
+								'title' => 'Успешно!',
+								'msg' => 'Ваш пароль изменен!',
+								'type' => 'success',
+							]
+						
+						);
+						$this->session->set_userdata($error);
+						header('location: ' . site_url('pages/profile'));
+						exit;
+					}
+					else{
+						$error = array(
+							'error' => [
+								'title' => 'Ошибка!',
+								'msg' => 'Не верный пароль!',
+								'type' => 'danger',
+							]
+						);
+					}
+				}
+				else{
+					$error = array(
+						'error' => [
+							'title' => 'Ошибка!',
+							'msg' => 'Пароли не совпадают!',
+							'type' => 'danger',
+						]
+					);
+				}
+			}
+			else{
+				$error = array(
+					'error' => [
+						'title' => 'Ошибка!',
+						'msg' => 'Не все поля заполнены!',
+						'type' => 'danger',
+					]
+				);
+			}
+			$this->session->set_userdata($error);
+			header('location: ' . site_url('pages/profile'));
+			exit;
+		}
+		else{
+			header('location: /');
 			exit;
 		}
 	}

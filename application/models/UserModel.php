@@ -14,8 +14,14 @@ class UserModel extends CI_Model{
 		}
 		$query = $this->db->get_where("users", array('id' => $id));
 		
-		$result = array_shift($query->result_array());
-		return $result;
+		$row = $query->result_array();
+		if(count($row)>0){
+			$result = array_shift($row);
+			return $result;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	public function getUserByEmail($email, $fields = ''){
@@ -25,9 +31,13 @@ class UserModel extends CI_Model{
 		}
 		$query = $this->db->get_where("users", array('email' => $email));
 		$row = $query->result_array();
-		
-		$result = array_shift($row);
-		return $result;
+		if(count($row)>0){
+			$result = array_shift($row);
+			return $result;
+		}
+		else{
+			return false;
+		}
 	}
 	public function getUsers($fields = ''){
 		if(!empty($fields)){
@@ -38,6 +48,35 @@ class UserModel extends CI_Model{
 		
 		return $query->result_array();
 	}
+	
+	public function updateDataUser($id,$data){
+		$this->db->where('id', $id);
+		$this->db->update('users', $data);
+		
+	}
+	
+	public function updateSessionUser($id = ''){
+		if(!empty($id)){
+			if($this->getUserById($id)){
+				$data = $this->getUserById($id, 'name,surname,email,photo,type');
+				$to_session = array(
+					'id' => $id,
+					'email' => $data['email'],
+					'name' => $data['name'],
+					'surname' => $data['surname'],
+					'photo' => $data['photo'],
+					'type' => $data['type']
+				);
+				$this->session->set_userdata($to_session);
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		return false;
+	}
+	
 	public function isValid(string $email = '', string $password = ''){
 		$query = $this->db->get_where("users", array('email' => $email, 'password' => $password));
 		if(count($query->result_array()) == 1){
