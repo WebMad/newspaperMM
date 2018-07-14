@@ -11,7 +11,7 @@
 		<div class="container">
 			<main>
 				<div class="row mt-3">
-					<div class="col card box-shadow shadow-lg mb-5" style="height: 285px;">
+					<div class="col card box-shadow shadow-lg mb-5" style="height: 325px;">
 						<div class="mt-3 sidebar-admin">
 							<h2>Меню</h2>
 							<ul class="nav nav-pills nav-stacked">
@@ -26,6 +26,9 @@
 							  </li>
 							  <li class="nav-item">
 								<a class="nav-link<?= ($this->page == 'authors') ? ' active' : ''?>" href=<?= site_url('panel/authors')?>>Авторы</a>
+							  </li>
+							  <li class="nav-item">
+								<a class="nav-link<?= ($this->page == 'editMainPage') ? ' active' : ''?>" href=<?= site_url('panel/editMainPage')?>>Главная страница</a>
 							  </li>
 							  <li class="nav-item">
 								<a class="nav-link<?= ($this->page == 'information') ? ' active' : ''?>" href=<?= site_url('panel/information')?>>Информация</a>

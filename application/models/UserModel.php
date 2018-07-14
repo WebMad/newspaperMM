@@ -39,10 +39,13 @@ class UserModel extends CI_Model{
 			return false;
 		}
 	}
-	public function getUsers($fields = ''){
+	public function getUsers($fields = '', $where = ''){
 		if(!empty($fields)){
 			$fields = explode(",", $fields);
 			$this->db->select($fields);
+		}
+		if(!empty($where)){
+			$this->db->where($where);
 		}
 		$query = $this->db->get("users");
 		

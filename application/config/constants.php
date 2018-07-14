@@ -90,3 +90,8 @@ defined('IMG_USER_PATH')          OR define('IMG_USER_PATH', 'assets/images/user
 defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_USER_NAME', 'no-photo.png');
 defined('STYLE_PATH')             OR define('STYLE_PATH', 'assets/css/');
 defined('JS_PATH')                OR define('JS_PATH', 'assets/js/');
+
+//users types constants
+defined('USER_TYPE_DEFAULT')   OR define('USER_TYPE_DEFAULT', 0);
+defined('USER_TYPE_ADMIN')     OR define('USER_TYPE_ADMIN', 1);
+defined('USER_TYPE_AUTHOR')    OR define('USER_TYPE_AUTHOR', 2);

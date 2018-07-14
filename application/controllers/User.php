@@ -19,7 +19,8 @@ class User extends CI_Controller {
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 		if($this->UserModel->isValid($email, $password)){
-			$this->UserModel->updateSession($email);
+			$data = $this->UserModel->getUserByEmail($email);
+			$this->UserModel->updateSessionUser($data['id']);
 			$error = array(
 				'error' => [
 					'title' => 'Успешно!',

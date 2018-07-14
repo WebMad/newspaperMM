@@ -11,6 +11,7 @@ class Pages extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		$this->load->model('NewsModel');
+		$this->load->model('MainPageModel');
 		if($this->session->has_userdata('email')){
 			$this->userdata = $_SESSION;
 		}
@@ -19,7 +20,17 @@ class Pages extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('default/header');
-		$this->load->view('default/home');
+
+		$data['news'] = $this->MainPageModel->getBlocks('news');
+
+		$id = json_decode($data['news']['0']['content']);
+		unset($data['news']);
+		foreach($id as $dt){
+			$data['news'][] = $this->NewsModel->getNewById($dt, 'id,title,annotation,date');
+		}
+
+		$this->load->view('default/home',$data);
+
 		$this->load->view('default/footer');
 	}
 	public function news($id = 0)
