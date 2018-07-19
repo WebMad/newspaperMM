@@ -21,7 +21,7 @@
 						<td><?= $new['views']?></td>
 						<td><?= $new['date']?></td>
 						<td><?= $new['last_edit']?></td>
-						<td>Удалить</td>
+                        <td><a href=<?= site_url('panel/news/delete/' . $new['id'])?>>Удалить</a></td>
 					</tr>
 				<?}?>
 			</tbody>

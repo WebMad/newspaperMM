@@ -36,12 +36,20 @@ class Panel extends CI_Controller {
 		$this->load->view('admin/home');
 		$this->load->view('admin/footer');
 	}
-	public function news()
+	public function news($action = '', $id = 0)
 	{
 		$this->page = 'news';
 		$this->load->view('admin/header');
-		$data['news'] = $this->NewsModel->getNews('id,title,views,date,last_edit');
-		$this->load->view('admin/news', $data);
+		if($action == "delete" && $id>0){
+		    $data = $this->NewsModel->getNewById($id,'id');
+		    if(count($data)>0){
+                $this->db->delete('news', array('id' => $id));
+            }
+            header('location: ' . site_url('panel/news'));
+		    exit;
+        }
+        $data['news'] = $this->NewsModel->getNews('id,title,views,date,last_edit');
+        $this->load->view('admin/news', $data);
 		$this->load->view('admin/footer');
 	}
 	public function addNew()
@@ -58,7 +66,7 @@ class Panel extends CI_Controller {
 	}
 	public function editMainPage()
 	{
-		$arr = [];
+		$arr = array();
 		if(!empty($_POST['data']['news'])){
 			foreach($_POST['data']['news'] as $new){
 				$data['news'][] = $new;
@@ -91,10 +99,9 @@ class Panel extends CI_Controller {
 		}
 		if(!empty($_POST['data']['main_new'])){
 			$data['main_new'] = $_POST['data']['main_new'];
-			$json = json_encode($data['main_new'],JSON_UNESCAPED_UNICODE);
 			$arr[] = array(
 				'type' => 'main_new', 
-				'content' => $json, 
+				'content' => $data['main_new'],
 			);
 		}
 		if(count($arr)>0){

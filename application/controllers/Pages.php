@@ -21,13 +21,8 @@ class Pages extends CI_Controller {
 	{
 		$this->load->view('default/header');
 
-		$data['news'] = $this->MainPageModel->getBlocks('news');
-
-		$id = json_decode($data['news']['0']['content']);
-		unset($data['news']);
-		foreach($id as $dt){
-			$data['news'][] = $this->NewsModel->getNewById($dt, 'id,title,annotation,date');
-		}
+        $data = $this->MainPageModel->getNewsBlock();
+        $data['main_new'] = $this->MainPageModel->getMainNewBlock();
 
 		$this->load->view('default/home',$data);
 

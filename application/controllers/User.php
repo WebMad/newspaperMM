@@ -7,6 +7,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('UserModel');
+		$this->load->model('ErrorsModel');
 		$this->load->library('session');
 	}
 	public function index()
@@ -21,28 +22,13 @@ class User extends CI_Controller {
 		if($this->UserModel->isValid($email, $password)){
 			$data = $this->UserModel->getUserByEmail($email);
 			$this->UserModel->updateSessionUser($data['id']);
-			$error = array(
-				'error' => [
-					'title' => 'Успешно!',
-					'msg' => 'Здравствуйте, ' . $data['name'] . '!',
-					'type' => 'success',
-				]
-			
-			);
-			$this->session->set_userdata($error);
+			$data['name'] = htmlspecialchars($data['name']);
+            $this->ErrorsModel->newError('success', 'Успешно!', "Здравствуйте, {$data['name']}!");
 			header('location: /');
 			exit;
 		}
 		else{
-			$error = array(
-				'error' => [
-					'title' => 'Ошибка!',
-					'msg' => 'Не верный логин или пароль!',
-					'type' => 'danger',
-				]
-			
-			);
-			$this->session->set_userdata($error);
+		    $this->ErrorsModel->newError('danger', 'Ошибка!', 'Не верный логин или пароль!');
 			header('location: ' . site_url('Pages/auth'));
 			exit;
 		}
@@ -50,9 +36,9 @@ class User extends CI_Controller {
 	public function updateInformation(){
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$data = array(
-				'name' => $_POST['name'],
-				'surname' => $_POST['surname'],
-				'email' => $_POST['email'],
+				'name' => htmlspecialchars($_POST['name']),
+				'surname' => htmlspecialchars($_POST['surname']),
+				'email' => htmlspecialchars($_POST['email']),
 			);
 			$user = $this->UserModel->getUserByEmail($_SESSION['email'], 'id');
 			$this->UserModel->updateDataUser($user['id'], $data);
@@ -76,48 +62,21 @@ class User extends CI_Controller {
 							'password' => $_POST['password'],
 						);
 						$this->UserModel->updateDataUser($_SESSION['id'], $data);
-						$error = array(
-							'error' => [
-								'title' => 'Успешно!',
-								'msg' => 'Ваш пароль изменен!',
-								'type' => 'success',
-							]
-						
-						);
-						$this->session->set_userdata($error);
+                        $this->ErrorsModel->newError('success', 'Успешно!', 'Ваш пароль изменен!');
 						header('location: ' . site_url('pages/profile'));
 						exit;
 					}
 					else{
-						$error = array(
-							'error' => [
-								'title' => 'Ошибка!',
-								'msg' => 'Не верный пароль!',
-								'type' => 'danger',
-							]
-						);
+                        $this->ErrorsModel->newError('danger', 'Ошибка!', 'Не верный пароль!');
 					}
 				}
 				else{
-					$error = array(
-						'error' => [
-							'title' => 'Ошибка!',
-							'msg' => 'Пароли не совпадают!',
-							'type' => 'danger',
-						]
-					);
+                    $this->ErrorsModel->newError('danger', 'Ошибка!', 'Пароли не совпадают!');
 				}
 			}
 			else{
-				$error = array(
-					'error' => [
-						'title' => 'Ошибка!',
-						'msg' => 'Не все поля заполнены!',
-						'type' => 'danger',
-					]
-				);
+                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Не все поля заполнены!');
 			}
-			$this->session->set_userdata($error);
 			header('location: ' . site_url('pages/profile'));
 			exit;
 		}
