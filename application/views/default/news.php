@@ -22,7 +22,7 @@
 				<h2>Популярно</h2>
 				<ul class="list-group mt-3">
                     <?foreach($popular_news as $new){?>
-                        <a href=<?= site_url('pages/news/'.$new['id']);?> class="text-muted"><li class="list-group-item p-3"><?= $new['title']?> <div class="text-muted float-right"><img class="float-left mt-1 mr-1" src=<?= base_url( IMG_PATH . 'eyes.svg')?>><small><?=$new['views']?></small></div></li></a>
+                        <a href=<?= site_url('pages/news/'.$new['id']);?> class="text-muted list-group-item p-3"><?= $new['title']?> <div class="text-muted float-right"><img class="float-left mt-1 mr-1" src=<?= base_url( IMG_PATH . 'eyes.svg')?>><small><?=$new['views']?></small></div></a>
                     <?}?>
 				</ul>
 			</div>
