@@ -5,7 +5,7 @@
 			<tr>
 				<td>Главная новость</td>
 				<td>
-					<select name="data[main_new][]" class="form-control">
+					<select name="data[main_new]" class="form-control">
 						<?=$news?>
 					</select>
 				</td>

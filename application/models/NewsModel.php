@@ -16,7 +16,22 @@ class NewsModel extends CI_Model{
 		$result = array_shift($result);
 		return $result;
 	}
-	
+    public function getPopularNews(){
+        $this->db->order_by('views', 'desc');
+        $this->db->select(array('id','title','views'));
+        $query = $this->db->get("news", 5);
+        $result = $query->result_array();
+        return $result;
+    }
+	public function updateDataNew($id,$data){
+        $this->db->where('id', $id);
+	    $this->db->update('news', $data);
+    }
+    public function addView($id, $count = 1){
+	    $this->db->set('views', 'views + ' . $count, false);
+        $this->db->where('id', $id);
+        $this->db->update('news');
+    }
 	/*public function getUserByEmail($email, $fields = ''){
 		if(!empty($fields)){
 			$fields = explode(",", $fields);

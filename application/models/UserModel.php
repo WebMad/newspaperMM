@@ -68,7 +68,8 @@ class UserModel extends CI_Model{
 					'name' => $data['name'],
 					'surname' => $data['surname'],
 					'photo' => $data['photo'],
-					'type' => $data['type']
+					'type' => $data['type'],
+					'viewed' => array(),
 				);
 				$this->session->set_userdata($to_session);
 				return true;
@@ -80,7 +81,7 @@ class UserModel extends CI_Model{
 		return false;
 	}
 	
-	public function isValid(string $email = '', string $password = ''){
+	public function isValid($email = '', $password = ''){
 		$query = $this->db->get_where("users", array('email' => $email, 'password' => $password));
 		if(count($query->result_array()) == 1){
 			return true;
