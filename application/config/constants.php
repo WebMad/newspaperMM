@@ -87,6 +87,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 //my constants
 defined('IMG_PATH')               OR define('IMG_PATH', 'assets/images/');
 defined('IMG_USER_PATH')          OR define('IMG_USER_PATH', 'assets/images/users/');
+defined('IMG_NEWSPAPER_PATH')     OR define('IMG_NEWSPAPER_PATH', 'assets/images/newspapers/');
+defined('IMG_NEW_PATH')           OR define('IMG_NEW_PATH', 'assets/images/news/');
 defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_USER_NAME', 'no-photo.png');
 defined('STYLE_PATH')             OR define('STYLE_PATH', 'assets/css/');
 defined('JS_PATH')                OR define('JS_PATH', 'assets/js/');

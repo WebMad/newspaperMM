@@ -12,6 +12,7 @@ class Pages extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('NewsModel');
 		$this->load->model('MainPageModel');
+		$this->load->model('NewspaperModel');
 		if($this->session->has_userdata('email')){
 			$this->userdata = $_SESSION;
 		}
@@ -34,7 +35,7 @@ class Pages extends CI_Controller {
         $data['popular_news'] = $this->NewsModel->getPopularNews();
 		if($id>0){
 			$data['is_valid'] = $this->NewsModel->isValid($id);
-			$data['new'] = $this->NewsModel->getNewById($id, 'title,text,date,last_edit,views');
+			$data['new'] = $this->NewsModel->getNewById($id, 'title,text,images,date,last_edit,views');
 			$this->load->view('default/new', $data);
 			if($data['is_valid']){
 			    if(isset($_SESSION['viewed']) and in_array($id,$_SESSION['viewed'])){
@@ -46,7 +47,7 @@ class Pages extends CI_Controller {
             }
 		}
 		else{
-			$data['news'] = $this->NewsModel->getNews('id,title,annotation,date,last_edit,views');
+			$data['news'] = $this->NewsModel->getNews('id,title,annotation,images,date,last_edit,views');
 			$this->load->view('default/news', $data);
 		}
 		$this->load->view('default/footer');
@@ -54,7 +55,8 @@ class Pages extends CI_Controller {
 	public function archive()
 	{
 		$this->load->view('default/header');
-		$this->load->view('default/archive');
+		$data['newspapers'] = $this->NewspaperModel->getNewspapers('text,filename,img,date');
+		$this->load->view('default/archive',$data);
 		$this->load->view('default/footer');
 	}
 	public function authors()

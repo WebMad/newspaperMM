@@ -13,6 +13,7 @@ class Panel extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->database();
 		$this->load->model('NewsModel');
+		$this->load->model('NewspaperModel');
 		$this->load->model('UserModel');
 		if($this->session->has_userdata('email')){
 			if($this->session->userdata('type')==1){
@@ -52,6 +53,22 @@ class Panel extends CI_Controller {
         $this->load->view('admin/news', $data);
 		$this->load->view('admin/footer');
 	}
+    public function newspapers($action = '', $id = 0)
+    {
+        $this->page = 'newspapers';
+        $this->load->view('admin/header');
+        /*if($action == "delete" && $id>0){
+            $data = $this->NewspaperModel->getNewById($id,'id');
+            if(count($data)>0){
+                $this->db->delete('news', array('id' => $id));
+            }
+            header('location: ' . site_url('panel/news'));
+            exit;
+        }*/
+        $data['newspapers'] = $this->NewspaperModel->getNewspapers('id,text,date');
+        $this->load->view('admin/newspapers', $data);
+        $this->load->view('admin/footer');
+    }
 	public function addNew()
 	{
 		$this->page = 'news';
@@ -64,6 +81,18 @@ class Panel extends CI_Controller {
 		$this->load->view('admin/addNew');
 		$this->load->view('admin/footer');
 	}
+    public function addNewspaper()
+    {
+        $this->page = 'news';
+        if(isset($_POST['text'])){
+            $this->NewspaperModel->addNewspaper();
+            header('location:' . site_url('panel/newspapers'));
+            exit;
+        }
+        $this->load->view('admin/header');
+        $this->load->view('admin/addNew');
+        $this->load->view('admin/footer');
+    }
 	public function editMainPage()
 	{
 		$arr = array();

@@ -4,6 +4,7 @@ class NewsModel extends CI_Model{
 	public function __construct(){
 		$this->load->database();
 		$this->load->library('session');
+		$this->load->model('FilesModel');
 	}
 	
 	public function getNewById($id, $fields = ''){
@@ -56,6 +57,7 @@ class NewsModel extends CI_Model{
 		$data['title'] = $_POST['title'];
 		$data['text'] = $_POST['text'];
 		$data['annotation'] = $_POST['annotation'];
+		$data['images'] = json_encode($this->FilesModel->newImage(), JSON_UNESCAPED_UNICODE);
 		$query = $this->db->insert("news", $data);
 	}
 	public function isValid($id){

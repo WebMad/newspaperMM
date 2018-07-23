@@ -22,7 +22,6 @@ class User extends CI_Controller {
 		if($this->UserModel->isValid($email, $password)){
 			$data = $this->UserModel->getUserByEmail($email);
 			$this->UserModel->updateSessionUser($data['id']);
-			$data['name'] = htmlspecialchars($data['name']);
             $this->ErrorsModel->newError('success', 'Успешно!', "Здравствуйте, {$data['name']}!");
 			header('location: /');
 			exit;

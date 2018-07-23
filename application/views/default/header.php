@@ -5,6 +5,7 @@
 		<link href=<?= base_url( STYLE_PATH . 'bootstrap.min.css');?> rel="stylesheet" type="text/css">
 		<link href=<?= base_url( STYLE_PATH . 'style.css');?> rel="stylesheet" type="text/css">
 		<link href=<?= base_url( STYLE_PATH . 'sidebar.css');?> rel="stylesheet" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<div class="container">
@@ -22,7 +23,7 @@
 						if(!empty($this->userdata)){
 						?>
 							<button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle btn_login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Алексей
+								<?= $_SESSION['name']?>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 								<a class="dropdown-item" href="<?= site_url('Pages/profile');?>">Профиль</a>

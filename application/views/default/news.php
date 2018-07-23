@@ -6,7 +6,13 @@
 					<div class="mb-5 mt-3">
 						<h2 class="mb-0"><?= $new['title']?></h2>
 						<small class="text-muted"><?= strftime("%d %b %H:%M",strtotime($new['date']));?></small>
-						<img src=<?= base_url( IMG_PATH . 'slider.jpg');?> class="rounded mt-3" style="width:100%">
+						<div class="NewImages">
+                            <? foreach(json_decode($new['images']) as $image){ ?>
+                                <a data-toggle="lightbox" data-gallery="gallery1" href=<?= base_url( IMG_NEW_PATH . $image);?>?image=<?=$image?>>
+                                    <img src=<?= base_url( IMG_NEW_PATH . $image);?>?image=<?=$image?> class="rounded mt-3" style="width:<?= 100/(count(json_decode($new['images']))-1) - 1?>%">
+                                </a>
+                            <?}?>
+                        </div>
 						<p class="mt-3 text-justify"><?= $new['annotation']?></p>
                         <a href=<?= site_url('pages/news/'.$new['id']);?>>Читать дальше</a><div class="text-muted float-right"><img class="float-left mt-1 mr-1" src=<?= base_url( IMG_PATH . 'eyes.svg')?>><small><?=$new['views']?></small></div>
 

@@ -32,6 +32,9 @@ body.auth_user{
 .row{
 	margin: 0px;
 }
+.NewImages a:first-child img{
+	width: 100% !important;
+}
 @media (max-width: 992px) {
 	.btn_login{
 		display: none;

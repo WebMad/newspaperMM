@@ -6,7 +6,7 @@
 				<img class="mw-100 mt-3" style="height: 250px;" src=<?= base_url(IMG_USER_PATH . $_SESSION['photo']);?>>
 				<h4 class="mt-3">Изменить</h4>
 				<div>
-					<?= form_open_multipart('Upload/image')?>
+					<?= form_open_multipart('Upload/userImage')?>
 					
 						<label class="btn btn-outline-secondary mt-3 w-100">
 							Выбрать | <input type="file" name="userfile" size="1" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
