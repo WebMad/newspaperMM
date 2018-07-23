@@ -21,6 +21,7 @@ class Upload extends CI_Controller {
 	public function userImage(){
 
 	    $this->FilesModel->userImage();
+        $this->UserModel->updateSessionUser($id);
 
 		header('location: ' . site_url('pages/profile'));
 		exit;

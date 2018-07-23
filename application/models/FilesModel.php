@@ -5,31 +5,39 @@ class FilesModel extends CI_Model{
 		$this->load->database();
 		$this->load->library('session');
 		$this->load->model('ErrorsModel');
+		$this->load->model('UserModel');
 	}
-	public function userImage(){
+	public function userImage($id = ''){
+	    if(empty($id)){
+	        $id = $_SESSION['id'];
+	        $photo = $_SESSION['photo'];
+        }
+        else{
+            $data = $this->UserModel->getUserById($id,'photo');
+            $photo = $data['photo'];
+        }
         $config['allowed_types'] = 'jpeg|gif|jpg|png';
         $config['max_size'] = 100000;
         $config['max_width'] = 2048;
         $config['max_height'] = 1080;
-        $config['file_name'] = $_SESSION['id'];
+        $config['file_name'] = $id;
         $config['upload_path'] = IMG_USER_PATH;
         $this->load->library('upload', $config);
-        if($_SESSION['photo'] != DEFAULT_IMG_USER_NAME && is_file(IMG_USER_PATH . $_SESSION['photo'])){
-            unlink(IMG_USER_PATH . $_SESSION['photo']);
+        if($photo != DEFAULT_IMG_USER_NAME && is_file(IMG_USER_PATH . $photo)){
+            unlink(IMG_USER_PATH . $photo);
         }
         if ( ! $this->upload->do_upload('userfile'))
         {
             //$error = array('error' => $this->upload->display_errors());
             $this->ErrorsModel->newError('danger', 'Ошибка!', 'Файл не был загружен, попробуйте загрузить другой файл.');
-            $this->UserModel->updateDataUser($_SESSION['id'], array('photo' => DEFAULT_IMG_USER_NAME));
+            $this->UserModel->updateDataUser($id, array('photo' => DEFAULT_IMG_USER_NAME));
         }
         else
         {
             $this->ErrorsModel->newError('success', 'Успешно!', 'Файл загружен!');
             $data = array('upload_data' => $this->upload->data());
-            $this->UserModel->updateDataUser($_SESSION['id'], array('photo' => $data['upload_data']['file_name']));
+            $this->UserModel->updateDataUser($id, array('photo' => $data['upload_data']['file_name']));
         }
-        $this->UserModel->updateSessionUser($_SESSION['id']);
     }
     public function newImage(){
 	    $file_names = array();

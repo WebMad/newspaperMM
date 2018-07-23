@@ -90,6 +90,7 @@ defined('IMG_USER_PATH')          OR define('IMG_USER_PATH', 'assets/images/user
 defined('IMG_NEWSPAPER_PATH')     OR define('IMG_NEWSPAPER_PATH', 'assets/images/newspapers/');
 defined('IMG_NEW_PATH')           OR define('IMG_NEW_PATH', 'assets/images/news/');
 defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_USER_NAME', 'no-photo.png');
+defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_NEWSPAPER_NAME', 'no-photo.png');
 defined('STYLE_PATH')             OR define('STYLE_PATH', 'assets/css/');
 defined('JS_PATH')                OR define('JS_PATH', 'assets/js/');
 defined('PDF_NEWSPAPER_PATH')     OR define('PDF_NEWSPAPER_PATH', 'assets/files/');

@@ -15,6 +15,7 @@ class Panel extends CI_Controller {
 		$this->load->model('NewsModel');
 		$this->load->model('NewspaperModel');
 		$this->load->model('UserModel');
+		$this->load->model('FilesModel');
 		if($this->session->has_userdata('email')){
 			if($this->session->userdata('type')==1){
 				$this->userdata = $_SESSION;
@@ -62,7 +63,7 @@ class Panel extends CI_Controller {
                 if(is_file(PDF_NEWSPAPER_PATH . $data['filename'])){
                     unlink(PDF_NEWSPAPER_PATH . $data['filename']);
                 }
-                if(is_file(IMG_NEWSPAPER_PATH . $data['img'])){
+                if(is_file(IMG_NEWSPAPER_PATH . $data['img']) and $data['img'] != DEFAULT_IMG_NEWSPAPER_NAME){
                     unlink(IMG_NEWSPAPER_PATH . $data['img']);
                 }
             }
@@ -73,6 +74,45 @@ class Panel extends CI_Controller {
         $this->load->view('admin/header');
         $data['newspapers'] = $this->NewspaperModel->getNewspapers('id,text,date');
         $this->load->view('admin/newspapers', $data);
+        $this->load->view('admin/footer');
+    }
+    public function authors($action = '', $id = '')
+    {
+        $this->page = 'authors';
+        if($action == "delete" && $id>0){
+            $data = $this->UserModel->getUsers('id,name,surname,email', array('type' => 2, 'id' => $id));;
+            if(count($data)>0){
+                $this->UserModel->deleteUser($id);
+            }
+            header('location: ' . site_url('panel/authors'));
+            exit;
+        }
+        $this->load->view('admin/header');
+        $data['authors'] = $this->UserModel->getUsers('id,name,surname,email', array('type' => 2));
+        $this->load->view('admin/authors', $data);
+        $this->load->view('admin/footer');
+    }
+    public function addAuthor()
+    {
+        $this->page = 'news';
+        if(isset($_POST['name'])
+            && isset($_POST['surname'])
+            && isset($_POST['email'])
+            && isset($_POST['password'])
+            && isset($_POST['repassword'])){
+            if(!$this->UserModel->getUserByEmail($_POST['email'], 'id')) {
+                if ($_POST['repassword'] == $_POST['password']) {
+                    $id = $this->UserModel->addUser($_POST['name'], $_POST['surname'], $_POST['password'], $_POST['email'], 2);
+                    if (isset($_FILES['userfile'])) {
+                        $this->FilesModel->userImage($id);
+                    }
+                }
+            }
+            header('location:' . site_url('panel/authors'));
+            exit;
+        }
+        $this->load->view('admin/header');
+        $this->load->view('admin/addAuthor');
         $this->load->view('admin/footer');
     }
 	public function addNew()
@@ -89,7 +129,7 @@ class Panel extends CI_Controller {
 	}
     public function addNewspaper()
     {
-        $this->page = 'news';
+        $this->page = 'newspapers';
         if(isset($_POST['text'])){
             $this->NewspaperModel->addNewspaper();
             header('location:' . site_url('panel/newspapers'));

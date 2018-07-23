@@ -80,7 +80,26 @@ class UserModel extends CI_Model{
 		}
 		return false;
 	}
-	
+	public function deleteUser($id){
+        $data = $this->getUserById($id, 'photo');
+        if(is_file(IMG_USER_PATH . $data['photo']) && $data['photo'] != DEFAULT_IMG_USER_NAME){
+            unlink(IMG_USER_PATH . $data['photo']);
+        }
+	    $this->db->delete('users', array('id' => $id));
+    }
+    public function addUser($name, $surname, $password, $email, $type, $img = DEFAULT_IMG_USER_NAME){
+        $data = array(
+            'name' => $name,
+            'surname' => $surname,
+            'password' => $password,
+            'email' => $email,
+            'type' => $type,
+            'photo' => $img,
+        );
+        $this->db->insert('users',$data);
+        $id = $this->db->insert_id();
+        return $id;
+    }
 	public function isValid($email = '', $password = ''){
 		$query = $this->db->get_where("users", array('email' => $email, 'password' => $password));
 		if(count($query->result_array()) == 1){
