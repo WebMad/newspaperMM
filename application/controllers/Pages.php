@@ -72,7 +72,8 @@ class Pages extends CI_Controller {
 	public function authors()
 	{
 		$this->load->view('default/header');
-		$this->load->view('default/authors');
+		$data['authors'] = $this->UserModel->getUsers('name, surname, photo', array('type' => '2'));
+		$this->load->view('default/authors', $data);
 		$this->load->view('default/footer');
 	}
 	public function about()
