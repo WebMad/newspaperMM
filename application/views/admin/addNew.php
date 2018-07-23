@@ -17,7 +17,7 @@
 		</div>
         <div class="form-label-group">
             <label class="btn btn-outline-secondary mt-3 w-100">
-                Загрузка доп. изображений | <input type="file" name="newImages[]" multiple size="10" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
+                Загрузка доп. изображений | <input type="file" accept=".jpg .gif .jpeg .png" name="newImages[]" multiple size="10" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
                 <span class='label label-info' id="upload-file-info">Выберите файлы</span>
             </label>
         </div>

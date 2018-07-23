@@ -52,12 +52,22 @@ class Pages extends CI_Controller {
 		}
 		$this->load->view('default/footer');
 	}
-	public function archive()
+	public function archive($type = '', $id = '')
 	{
-		$this->load->view('default/header');
-		$data['newspapers'] = $this->NewspaperModel->getNewspapers('text,filename,img,date');
-		$this->load->view('default/archive',$data);
-		$this->load->view('default/footer');
+	    if(!empty($type) && !empty($id)){
+            $data['newspapers'] = $this->NewspaperModel->getNewspaperById($id, 'filename');
+            $file_url = base_url(PDF_NEWSPAPER_PATH . $data['newspapers']['filename'] );
+            header('Content-Type: application/octet-stream');
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-disposition: attachment; filename=\"" . basename($file_url) );
+            readfile($file_url); // do the double-download-dance (dirty but worky)
+        }
+        else {
+            $this->load->view('default/header');
+            $data['newspapers'] = $this->NewspaperModel->getNewspapers('id,text,filename,img,date');
+            $this->load->view('default/archive', $data);
+            $this->load->view('default/footer');
+        }
 	}
 	public function authors()
 	{

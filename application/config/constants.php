@@ -92,6 +92,7 @@ defined('IMG_NEW_PATH')           OR define('IMG_NEW_PATH', 'assets/images/news/
 defined('DEFAULT_IMG_USER_NAME')  OR define('DEFAULT_IMG_USER_NAME', 'no-photo.png');
 defined('STYLE_PATH')             OR define('STYLE_PATH', 'assets/css/');
 defined('JS_PATH')                OR define('JS_PATH', 'assets/js/');
+defined('PDF_NEWSPAPER_PATH')     OR define('PDF_NEWSPAPER_PATH', 'assets/files/');
 
 //users types constants
 defined('USER_TYPE_DEFAULT')   OR define('USER_TYPE_DEFAULT', 0);

@@ -4,6 +4,7 @@ class NewspaperModel extends CI_Model{
 	public function __construct(){
 		$this->load->database();
 		$this->load->library('session');
+		$this->load->model('FilesModel');
 	}
 	public function getNewspaperById($id,$fields = '')
     {
@@ -35,7 +36,9 @@ class NewspaperModel extends CI_Model{
 
     public function addNewspaper(){
 	    $data['text'] = $_POST['text'];
-	    $data['text'] = $_POST['text'];
+        $data['img'] = $this->FilesModel->newspaperImage();
+        $data['filename'] = $this->FilesModel->newspaperFile();
+        $this->db->insert("newspapers", $data);
     }
 
 }

@@ -7,7 +7,7 @@ class FilesModel extends CI_Model{
 		$this->load->model('ErrorsModel');
 	}
 	public function userImage(){
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'jpeg|gif|jpg|png';
         $config['max_size'] = 100000;
         $config['max_width'] = 2048;
         $config['max_height'] = 1080;
@@ -33,7 +33,7 @@ class FilesModel extends CI_Model{
     }
     public function newImage(){
 	    $file_names = array();
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'jpeg|gif|jpg|png';
         $config['upload_path'] = IMG_NEW_PATH;
         $config['overwrite'] = 1;
         $this->load->library('upload', $config);
@@ -60,6 +60,45 @@ class FilesModel extends CI_Model{
             $config['file_name']++;
         }
         return $file_names;
+    }
+    public function newspaperImage(){
+        $config['allowed_types'] = 'jpeg|gif|jpg|png';
+        $config['max_size'] = 100000;
+        $config['max_width'] = 2048;
+        $config['max_height'] = 1080;
+        $config['file_name'] = time();
+        $config['upload_path'] = IMG_NEWSPAPER_PATH;
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('newspaperImage'))
+        {
+            $this->ErrorsModel->newError('danger', 'Ошибка!', 'Файл не был загружен, попробуйте загрузить другой файл.');
+        }
+        else
+        {
+            $data = $this->upload->data();
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Файл загружен!');
+            return $data['file_name'];
+        }
+    }
+    public function newspaperFile(){
+        $config['allowed_types'] = 'pdf';
+        $config['max_size'] = 1000000000;
+        $config['file_name'] = time();
+        $config['upload_path'] = PDF_NEWSPAPER_PATH;
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ( ! $this->upload->do_upload('newspaperPDF'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+            var_dump($error);
+            $this->ErrorsModel->newError('danger', 'Ошибка!', 'Файл не был загружен, попробуйте загрузить другой файл.');
+        }
+        else
+        {
+            $data = $this->upload->data();
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Файл загружен!');
+            return $data['file_name'];
+        }
     }
 }
 

@@ -39,32 +39,38 @@ class Panel extends CI_Controller {
 	}
 	public function news($action = '', $id = 0)
 	{
-		$this->page = 'news';
-		$this->load->view('admin/header');
-		if($action == "delete" && $id>0){
-		    $data = $this->NewsModel->getNewById($id,'id');
-		    if(count($data)>0){
+        if($action == "delete" && $id>0){
+            $data = $this->NewsModel->getNewById($id,'id');
+            if(count($data)>0){
                 $this->db->delete('news', array('id' => $id));
             }
             header('location: ' . site_url('panel/news'));
-		    exit;
+            exit;
         }
+		$this->page = 'news';
+		$this->load->view('admin/header');
         $data['news'] = $this->NewsModel->getNews('id,title,views,date,last_edit');
         $this->load->view('admin/news', $data);
 		$this->load->view('admin/footer');
 	}
     public function newspapers($action = '', $id = 0)
     {
+        if($action == "delete" && $id>0){
+            $data = $this->NewspaperModel->getNewspaperById($id,'id,filename,img');
+            if(count($data)>0){
+                $this->db->delete('newspapers', array('id' => $id));
+                if(is_file(PDF_NEWSPAPER_PATH . $data['filename'])){
+                    unlink(PDF_NEWSPAPER_PATH . $data['filename']);
+                }
+                if(is_file(IMG_NEWSPAPER_PATH . $data['img'])){
+                    unlink(IMG_NEWSPAPER_PATH . $data['img']);
+                }
+            }
+            header('location: ' . site_url('panel/newspapers'));
+            exit;
+        }
         $this->page = 'newspapers';
         $this->load->view('admin/header');
-        /*if($action == "delete" && $id>0){
-            $data = $this->NewspaperModel->getNewById($id,'id');
-            if(count($data)>0){
-                $this->db->delete('news', array('id' => $id));
-            }
-            header('location: ' . site_url('panel/news'));
-            exit;
-        }*/
         $data['newspapers'] = $this->NewspaperModel->getNewspapers('id,text,date');
         $this->load->view('admin/newspapers', $data);
         $this->load->view('admin/footer');
@@ -90,7 +96,7 @@ class Panel extends CI_Controller {
             exit;
         }
         $this->load->view('admin/header');
-        $this->load->view('admin/addNew');
+        $this->load->view('admin/addNewspaper');
         $this->load->view('admin/footer');
     }
 	public function editMainPage()

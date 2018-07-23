@@ -58,7 +58,7 @@ class NewsModel extends CI_Model{
 		$data['text'] = $_POST['text'];
 		$data['annotation'] = $_POST['annotation'];
 		$data['images'] = json_encode($this->FilesModel->newImage(), JSON_UNESCAPED_UNICODE);
-		$query = $this->db->insert("news", $data);
+		$this->db->insert("news", $data);
 	}
 	public function isValid($id){
 		$data = $this->getNewById($id, 'id');
