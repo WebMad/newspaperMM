@@ -16,6 +16,7 @@ class Panel extends CI_Controller {
 		$this->load->model('NewspaperModel');
 		$this->load->model('UserModel');
 		$this->load->model('FilesModel');
+		$this->load->model('InformationModel');
 		if($this->session->has_userdata('email')){
 			if($this->session->userdata('type')==1){
 				$this->userdata = $_SESSION;
@@ -202,7 +203,28 @@ class Panel extends CI_Controller {
 	{
 		$this->page = 'information';
 		$this->load->view('admin/header');
-		$this->load->view('admin/information');
+		$data['data'] = $this->InformationModel->getAll();
+		$this->load->view('admin/information', $data);
 		$this->load->view('admin/footer');
 	}
+    public function editInformation($type = 'about_us')
+    {
+        if(isset($_POST['type'])){
+            switch($_POST['type']){
+                case 'about_us': $this->InformationModel->setAboutUs($_POST['text']); break;
+                case 'contacts': $this->InformationModel->setContacts($_POST['text']); break;
+            }
+            header('location: ' . site_url('panel/information'));
+            exit;
+        }
+        $this->page = 'information';
+        $this->load->view('admin/header');
+        switch($type) {
+            case 'contacts': $data['data'] = $this->InformationModel->getContacts(); break;
+            case 'about_us':
+            default: $data['data'] = $this->InformationModel->getAboutUs();
+        }
+        $this->load->view('admin/editInformation', $data);
+        $this->load->view('admin/footer');
+    }
 }

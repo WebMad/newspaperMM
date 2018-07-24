@@ -13,6 +13,7 @@ class Pages extends CI_Controller {
 		$this->load->model('NewsModel');
 		$this->load->model('MainPageModel');
 		$this->load->model('NewspaperModel');
+		$this->load->model('InformationModel');
 		if($this->session->has_userdata('email')){
 			$this->userdata = $_SESSION;
 		}
@@ -26,8 +27,8 @@ class Pages extends CI_Controller {
         $data['main_new'] = $this->MainPageModel->getMainNewBlock();
 
 		$this->load->view('default/home',$data);
-
-		$this->load->view('default/footer');
+        $data['contacts'] = $this->InformationModel->getContacts();
+		$this->load->view('default/footer', $data);
 	}
 	public function news($id = 0)
 	{
@@ -50,7 +51,8 @@ class Pages extends CI_Controller {
 			$data['news'] = $this->NewsModel->getNews('id,title,annotation,images,date,last_edit,views');
 			$this->load->view('default/news', $data);
 		}
-		$this->load->view('default/footer');
+        $data['contacts'] = $this->InformationModel->getContacts();
+        $this->load->view('default/footer', $data);
 	}
 	public function archive($type = '', $id = '')
 	{
@@ -66,7 +68,8 @@ class Pages extends CI_Controller {
             $this->load->view('default/header');
             $data['newspapers'] = $this->NewspaperModel->getNewspapers('id,text,filename,img,date');
             $this->load->view('default/archive', $data);
-            $this->load->view('default/footer');
+            $data['contacts'] = $this->InformationModel->getContacts();
+            $this->load->view('default/footer', $data);
         }
 	}
 	public function authors()
@@ -74,13 +77,16 @@ class Pages extends CI_Controller {
 		$this->load->view('default/header');
 		$data['authors'] = $this->UserModel->getUsers('name, surname, photo', array('type' => '2'));
 		$this->load->view('default/authors', $data);
-		$this->load->view('default/footer');
+        $data['contacts'] = $this->InformationModel->getContacts();
+        $this->load->view('default/footer', $data);
 	}
 	public function about()
 	{
 		$this->load->view('default/header');
-		$this->load->view('default/about');
-		$this->load->view('default/footer');
+        $data['about'] = $this->InformationModel->getAboutUs();
+		$this->load->view('default/about',$data);
+        $data['contacts'] = $this->InformationModel->getContacts();
+        $this->load->view('default/footer', $data);
 	}
 	public function auth(){
 		$this->load->view('auth');
@@ -89,6 +95,7 @@ class Pages extends CI_Controller {
 	{
 		$this->load->view('default/header');
 		$this->load->view('default/profile');
-		$this->load->view('default/footer');
+        $data['contacts'] = $this->InformationModel->getContacts();
+        $this->load->view('default/footer', $data);
 	}
 }

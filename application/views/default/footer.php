@@ -18,7 +18,8 @@
 						<div class="row">
 							<div class="col-lg-7">
 								<h4>Информация</h4>
-								<p>
+                                <?= $contacts['text']?>
+								<!--<p>
 									Адрес редакции:<br>
 									г. Астрахань, ул. Анри Барбюса, 7<br>
 									Региональный школьный технопарк<br>
@@ -27,7 +28,7 @@
 									Тел.:
 									+7(8512) 52-68-92<br>
 									+7(908) 623-28-33<br>
-								</p>
+								</p>-->
 							</div>
 							<div class="col-lg-5">
 								<img src=<?= base_url( IMG_PATH . 'rspr_barcode.png')?> class="w-100">
