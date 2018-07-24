@@ -7,6 +7,7 @@
 			
 			?>
 				<div class="mb-5 mt-3">
+                    <small class="float-right"><a href=<?=site_url('pages/news')?>>назад</a></small>
 					<h2 class="mb-0"><?= $new['title']?></h2>
 					<small class="text-muted"><?= strftime("%d %b %H:%M",strtotime($new['date']));?></small>
                     <div class="NewImages">
@@ -31,13 +32,7 @@
                 <h2>Популярно</h2>
                 <ul class="list-group mt-3">
                     <?foreach($popular_news as $new){?>
-                        <a href=<?= site_url('pages/news/'.$new['id']);?> class="text-muted">
-                            <li style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" class="list-group-item p-3">
-                                <div class="text-muted float-right"><img class="float-left mt-1 mr-1" src=<?= base_url( IMG_PATH . 'eyes.svg')?>><small><?=$new['views']?></small></div>
-                                <?= $new['title']?>
-
-                            </li>
-                        </a>
+                        <a href=<?= site_url('pages/news/'.$new['id']);?> class="text-muted list-group-item p-3"><?= $new['title']?> <div class="text-muted float-right"><img class="float-left mt-1 mr-1" src=<?= base_url( IMG_PATH . 'eyes.svg')?>><small><?=$new['views']?></small></div></a>
                     <?}?>
                 </ul>
             </div>

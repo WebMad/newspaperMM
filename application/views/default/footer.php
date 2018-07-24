@@ -6,10 +6,10 @@
 						
 						<h4>Страницы</h4>
 						<ul class="list-unstyled text-small">
-			              <li><a class="text-muted" href="#">Новости</a></li>
-			              <li><a class="text-muted" href="#">Газеты</a></li>
-			              <li><a class="text-muted" href="#">Авторы</a></li>
-			              <li><a class="text-muted" href="#">О нас</a></li>
+			              <li><a href=<?= site_url('Pages/news');?> class="text-muted">Новости</a></li>
+			              <li><a href=<?= site_url('Pages/archive');?> class="text-muted">Газеты</a></li>
+			              <li><a href=<?= site_url('Pages/authors');?> class="text-muted">Авторы</a></li>
+			              <li><a href=<?= site_url('Pages/about');?> class="text-muted">О нас</a></li>
 			            </ul>
 
 

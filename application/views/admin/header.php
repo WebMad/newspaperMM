@@ -37,4 +37,19 @@
 						</div>
 					</div>
 					<div class="col-lg-9 ml-4 card box-shadow shadow-lg mb-5">
+                    <?if($this->session->has_userdata('error')){
+                        $error = $this->session->userdata('error');
+                        ?>
+                        <div class="row">
+                            <div class="mt-3 w-100 alert alert-<?= $error['type']?> alert-dismissible fade show" role="alert">
+                                <strong><?= $error['title']?></strong> <?= $error['msg']?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <?
+                        $this->session->unset_userdata('error');
+                    }
+                    ?>
 				

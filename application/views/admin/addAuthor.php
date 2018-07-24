@@ -1,5 +1,5 @@
 <div class="mb-5 mt-3">
-	<a href=<?= site_url('panel/news');?>>Назад</a>
+	<a href=<?= site_url('panel/authors');?>>Назад</a>
 	<h2 class="mb">Добавление автора</h2>
 	<script src=<?= base_url("assets/ckeditor/ckeditor.js");?>></script>
 	<?= form_open_multipart('panel/addAuthor')?>

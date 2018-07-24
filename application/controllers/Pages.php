@@ -34,13 +34,14 @@ class Pages extends CI_Controller {
 	{
 		$this->load->view('default/header');
         $data['popular_news'] = $this->NewsModel->getPopularNews();
+        $data['contacts'] = $this->InformationModel->getContacts();
 		if($id>0){
 			$data['is_valid'] = $this->NewsModel->isValid($id);
 			$data['new'] = $this->NewsModel->getNewById($id, 'title,text,images,date,last_edit,views');
 			$this->load->view('default/new', $data);
 			if($data['is_valid']){
 			    if(isset($_SESSION['viewed']) and in_array($id,$_SESSION['viewed'])){
-                    $this->load->view('default/footer');
+                    $this->load->view('default/footer', $data);
 			        return;
                 }
                 $this->NewsModel->addView($id);
@@ -51,7 +52,6 @@ class Pages extends CI_Controller {
 			$data['news'] = $this->NewsModel->getNews('id,title,annotation,images,date,last_edit,views');
 			$this->load->view('default/news', $data);
 		}
-        $data['contacts'] = $this->InformationModel->getContacts();
         $this->load->view('default/footer', $data);
 	}
 	public function archive($type = '', $id = '')

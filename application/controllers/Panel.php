@@ -16,6 +16,7 @@ class Panel extends CI_Controller {
 		$this->load->model('NewspaperModel');
 		$this->load->model('UserModel');
 		$this->load->model('FilesModel');
+		$this->load->model('ErrorsModel');
 		$this->load->model('InformationModel');
 		if($this->session->has_userdata('email')){
 			if($this->session->userdata('type')==1){
@@ -46,6 +47,7 @@ class Panel extends CI_Controller {
             if(count($data)>0){
                 $this->db->delete('news', array('id' => $id));
             }
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Новость успешно удалена.');
             header('location: ' . site_url('panel/news'));
             exit;
         }
@@ -67,6 +69,10 @@ class Panel extends CI_Controller {
                 if(is_file(IMG_NEWSPAPER_PATH . $data['img']) and $data['img'] != DEFAULT_IMG_NEWSPAPER_NAME){
                     unlink(IMG_NEWSPAPER_PATH . $data['img']);
                 }
+                $this->ErrorsModel->newError('success', 'Успешно!', 'Газета успешно удалена.');
+            }
+            else{
+                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Такой новости не существует.');
             }
             header('location: ' . site_url('panel/newspapers'));
             exit;
@@ -84,6 +90,10 @@ class Panel extends CI_Controller {
             $data = $this->UserModel->getUsers('id,name,surname,email', array('type' => 2, 'id' => $id));;
             if(count($data)>0){
                 $this->UserModel->deleteUser($id);
+                $this->ErrorsModel->newError('success', 'Успешно!', 'Автор успешно удален.');
+            }
+            else{
+                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Такого автора не существует.');
             }
             header('location: ' . site_url('panel/authors'));
             exit;
@@ -95,7 +105,7 @@ class Panel extends CI_Controller {
     }
     public function addAuthor()
     {
-        $this->page = 'news';
+        $this->page = 'authors';
         if(isset($_POST['name'])
             && isset($_POST['surname'])
             && isset($_POST['email'])
@@ -107,7 +117,14 @@ class Panel extends CI_Controller {
                     if (isset($_FILES['userfile'])) {
                         $this->FilesModel->userImage($id);
                     }
+                    $this->ErrorsModel->newError('success', 'Успешно!', 'Автор успешно добавлен.');
                 }
+                else{
+                    $this->ErrorsModel->newError('danger', 'Ошибка!', 'Пароли не совпадают.');
+                }
+            }
+            else{
+                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Автор с таким email уже существует.');
             }
             header('location:' . site_url('panel/authors'));
             exit;
@@ -121,6 +138,7 @@ class Panel extends CI_Controller {
 		$this->page = 'news';
 		if(isset($_POST['title'])){
 			$this->NewsModel->addNew();
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Новость');
 			header('location:' . site_url('panel/news'));
 			exit;
 		}
@@ -133,6 +151,7 @@ class Panel extends CI_Controller {
         $this->page = 'newspapers';
         if(isset($_POST['text'])){
             $this->NewspaperModel->addNewspaper();
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Газета успешно добавлена.');
             header('location:' . site_url('panel/newspapers'));
             exit;
         }
@@ -143,6 +162,11 @@ class Panel extends CI_Controller {
 	public function editMainPage()
 	{
 		$arr = array();
+
+		/*ЗНАЮ, ЭТО ПРОСТО УЖАС, Я ПОТОМ ОТРЕФАКТОРЮ,ЧЕСТНО*/
+
+        //ПЕРЕПИСЫВАТЬ
+
 		if(!empty($_POST['data']['news'])){
 			foreach($_POST['data']['news'] as $new){
 				$data['news'][] = $new;
@@ -186,6 +210,8 @@ class Panel extends CI_Controller {
 		}
 		$this->page = 'editMainPage';
 		$this->load->view('admin/header');
+//        header$data['selected'] = $this->MainPageModel->getNewsBlock();
+//        $data['selected']['main_new'] = $this->MainPageModel->getMainNewBlock();
 		$news = $this->NewsModel->getNews('id,title');
 		$data['news'] = '';
 		foreach($news as $new){
@@ -214,6 +240,7 @@ class Panel extends CI_Controller {
                 case 'about_us': $this->InformationModel->setAboutUs($_POST['text']); break;
                 case 'contacts': $this->InformationModel->setContacts($_POST['text']); break;
             }
+            $this->ErrorsModel->newError('success', 'Успешно!', 'Информация изменена.');
             header('location: ' . site_url('panel/information'));
             exit;
         }
