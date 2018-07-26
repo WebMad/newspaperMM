@@ -23,8 +23,10 @@ class Pages extends CI_Controller {
 	{
 		$this->load->view('default/header');
 
-        $data = $this->MainPageModel->getNewsBlock();
+        $data['news'] = $this->MainPageModel->getNewsBlock();
         $data['main_new'] = $this->MainPageModel->getMainNewBlock();
+        $data['newspapers'] = $this->MainPageModel->getNewspapersBlock();
+        $data['authors'] = $this->MainPageModel->getAuthorsBlock();
 
 		$this->load->view('default/home',$data);
         $data['contacts'] = $this->InformationModel->getContacts();

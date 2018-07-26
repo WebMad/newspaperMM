@@ -163,51 +163,16 @@ class Panel extends CI_Controller {
 	{
 		$arr = array();
 
-		/*ЗНАЮ, ЭТО ПРОСТО УЖАС, Я ПОТОМ ОТРЕФАКТОРЮ,ЧЕСТНО*/
-
-        //ПЕРЕПИСЫВАТЬ
-
-		if(!empty($_POST['data']['news'])){
-			foreach($_POST['data']['news'] as $new){
-				$data['news'][] = $new;
-			}
-			$json = json_encode($data['news'],JSON_UNESCAPED_UNICODE);
-			$arr[] = array(
-				'type' => 'news', 
-				'content' => $json, 
-			);
-		}
-		if(!empty($_POST['data']['newspaper'])){
-			foreach($_POST['data']['newspaper'] as $new){
-				$data['newspaper'][] = $new;
-			}
-			$json = json_encode($data['newspaper'],JSON_UNESCAPED_UNICODE);
-			$arr[] = array(
-				'type' => 'newspaper', 
-				'content' => $json, 
-			);
-		}
-		if(!empty($_POST['data']['authors'])){
-			foreach($_POST['data']['authors'] as $new){
-				$data['authors'][] = $new;
-			}
-			$json = json_encode($data['authors'],JSON_UNESCAPED_UNICODE);
-			$arr[] = array(
-				'type' => 'authors', 
-				'content' => $json, 
-			);
-		}
-		if(!empty($_POST['data']['main_new'])){
-			$data['main_new'] = $_POST['data']['main_new'];
-			$arr[] = array(
-				'type' => 'main_new', 
-				'content' => $data['main_new'],
-			);
-		}
-		if(count($arr)>0){
-			$this->db->truncate('main_page');
-			$this->db->insert_batch('main_page', $arr);
-		}
+		if(isset($_POST['data'])){
+		    $data = $_POST['data'];
+            foreach($data as $key => $element){
+                $toDB[$key] = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
+            }
+            if(count($data)>0) {
+                $this->db->truncate('main_page');
+                $this->db->insert('main_page', $toDB);
+            }
+        }
 		$this->page = 'editMainPage';
 		$this->load->view('admin/header');
 //        header$data['selected'] = $this->MainPageModel->getNewsBlock();
@@ -217,6 +182,11 @@ class Panel extends CI_Controller {
 		foreach($news as $new){
 			$data['news'] .= "<option value='{$new['id']}'>{$new['title']}</option>";
 		}
+        $newspapers = $this->NewspaperModel->getNewspapers('id,text');
+        $data['newspapers'] = '';
+        foreach($newspapers as $new){
+            $data['newspapers'] .= "<option value='{$new['id']}'>{$new['text']}</option>";
+        }
 		$authors = $this->UserModel->getUsers('id,name,surname',array('type' => USER_TYPE_AUTHOR));
 		$data['authors'] = '';
 		foreach($authors as $author){

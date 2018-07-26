@@ -5,7 +5,7 @@
 			<tr>
 				<td>Главная новость</td>
 				<td>
-					<select name="data[main_new]" class="form-control">
+					<select name="data[main_new][]" multiple class="form-control">
 						<?=$news?>
 					</select>
 				</td>
@@ -13,12 +13,8 @@
 			<tr>
 				<td>Блок новостей</td>
 				<td>
-					<label>Новость 1: </label>
-					<select name="data[news][]" class="form-control">
-						<?=$news?>
-					</select>
-					<label class="mt-3">Новость 2: </label>
-					<select name="data[news][]" class="form-control">
+                    <label><small class="text-muted">Для выбора нескольких пунктов нажмите и удерживайте ctrl на клавиатуре</small></label>
+					<select name="data[news][]" multiple class="form-control">
 						<?=$news?>
 					</select>
 				</td>
@@ -26,35 +22,17 @@
 			<tr>
 				<td>Блок газет</td>
 				<td>
-					<label>Газета 1: </label>
-					<select name="data[newspaper][]" class="form-control">
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-					</select>
-					<label class="mt-3">Газета 2: </label>
-					<select name="data[newspaper][]" class="form-control">
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-					</select>
-					<label class="mt-3">Газета 3: </label>
-					<select name="data[newspaper][]" class="form-control">
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
-						<option>dsdsdsd dsdsd dsdsdsd</option>
+                    <label><small class="text-muted">Для выбора нескольких пунктов нажмите и удерживайте ctrl на клавиатуре</small></label>
+					<select name="data[newspapers][]" multiple class="form-control">
+						<?=$newspapers?>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>Блок авторов</td>
 				<td>
-					<label>Автор 1: </label>
-					<select name="data[authors][]" class="form-control">
-						<?= $authors?>
-					</select>
-					<label class="mt-3">Автор 2: </label>
-					<select name="data[authors][]" class="form-control">
+                    <label><small class="text-muted">Для выбора нескольких пунктов нажмите и удерживайте ctrl на клавиатуре</small></label>
+					<select name="data[authors][]" multiple class="form-control">
 						<?= $authors?>
 					</select>
 				</td>
