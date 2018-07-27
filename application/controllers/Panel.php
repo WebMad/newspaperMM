@@ -83,37 +83,38 @@ class Panel extends CI_Controller {
         $this->load->view('admin/newspapers', $data);
         $this->load->view('admin/footer');
     }
-    public function authors($action = '', $id = '')
+    public function users($action = '', $id = '')
     {
-        $this->page = 'authors';
+        $this->page = 'users';
         if($action == "delete" && $id>0){
-            $data = $this->UserModel->getUsers('id,name,surname,email', array('type' => 2, 'id' => $id));;
+            $data = $this->UserModel->getUsers('id,name,surname,email,type', array('id' => $id));;
             if(count($data)>0){
                 $this->UserModel->deleteUser($id);
-                $this->ErrorsModel->newError('success', 'Успешно!', 'Автор успешно удален.');
+                $this->ErrorsModel->newError('success', 'Успешно!', 'Пользователь успешно удален.');
             }
             else{
-                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Такого автора не существует.');
+                $this->ErrorsModel->newError('danger', 'Ошибка!', 'Такого пользователя не существует.');
             }
-            header('location: ' . site_url('panel/authors'));
+            header('location: ' . site_url('panel/users'));
             exit;
         }
         $this->load->view('admin/header');
-        $data['authors'] = $this->UserModel->getUsers('id,name,surname,email', array('type' => 2));
-        $this->load->view('admin/authors', $data);
+        $data['users'] = $this->UserModel->getUsers('id,name,surname,email,type');
+        $this->load->view('admin/users', $data);
         $this->load->view('admin/footer');
     }
-    public function addAuthor()
+    public function addUser()
     {
-        $this->page = 'authors';
+        $this->page = 'users';
         if(isset($_POST['name'])
             && isset($_POST['surname'])
             && isset($_POST['email'])
             && isset($_POST['password'])
+            && isset($_POST['type_user'])
             && isset($_POST['repassword'])){
             if(!$this->UserModel->getUserByEmail($_POST['email'], 'id')) {
                 if ($_POST['repassword'] == $_POST['password']) {
-                    $id = $this->UserModel->addUser($_POST['name'], $_POST['surname'], $_POST['password'], $_POST['email'], 2);
+                    $id = $this->UserModel->addUser($_POST['name'], $_POST['surname'], $_POST['password'], $_POST['email'], $_POST['type_user']);
                     if (isset($_FILES['userfile'])) {
                         $this->FilesModel->userImage($id);
                     }
@@ -126,11 +127,11 @@ class Panel extends CI_Controller {
             else{
                 $this->ErrorsModel->newError('danger', 'Ошибка!', 'Автор с таким email уже существует.');
             }
-            header('location:' . site_url('panel/authors'));
+            header('location:' . site_url('panel/users'));
             exit;
         }
         $this->load->view('admin/header');
-        $this->load->view('admin/addAuthor');
+        $this->load->view('admin/addUser');
         $this->load->view('admin/footer');
     }
 	public function addNew()

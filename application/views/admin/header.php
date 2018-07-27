@@ -25,7 +25,7 @@
 								<a class="nav-link<?= ($this->page == 'newspapers') ? ' active' : ''?>" href=<?= site_url('panel/newspapers')?>>Газеты</a>
 							  </li>
 							  <li class="nav-item">
-								<a class="nav-link<?= ($this->page == 'authors') ? ' active' : ''?>" href=<?= site_url('panel/authors')?>>Авторы</a>
+								<a class="nav-link<?= ($this->page == 'users') ? ' active' : ''?>" href=<?= site_url('panel/users')?>>Пользователи</a>
 							  </li>
 							  <li class="nav-item">
 								<a class="nav-link<?= ($this->page == 'editMainPage') ? ' active' : ''?>" href=<?= site_url('panel/editMainPage')?>>Главная страница</a>
